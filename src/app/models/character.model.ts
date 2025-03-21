@@ -1,4 +1,4 @@
-export interface Character{
+export interface Character {
   id: number;
   name: string;
   status: 'alive' | 'dead' | 'unknown';
@@ -19,4 +19,8 @@ export interface Character{
   created: string;
 }
 
-export type CharacterFilter = Partial<Pick<Character, 'name' | 'status' | 'species' | 'type' | 'gender'>>;
+export type CharacterFilter = Partial<
+  Pick<Character, 'name' | 'status' | 'species' | 'type' | 'gender'>
+> & {
+  page?: number;
+};

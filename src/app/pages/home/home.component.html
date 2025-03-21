@@ -1,0 +1,68 @@
+<p>home works!</p>
+
+<mat-grid-list cols="3" gutterSize="10px">
+  <!-- Inicio. Tabla -->
+  <mat-grid-tile colspan="2" rowspan="1">
+    <mat-card
+      appearance="outlined"
+      [style]="{ width: '100%', height: '100%', overflow: 'auto' }"
+    >
+      <mat-card-content>
+        @if (characters().results.length > 0) {
+          <table mat-table [dataSource]="characters().results">
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>ID</th>
+              <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="['id', 'name']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['id', 'name']"></tr>
+          </table>
+        }
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <!-- Fin. Tabla -->
+
+  <mat-grid-tile colspan="1" rowspan="3">
+    <mat-card appearance="outlined" [style]="{ width: '100%', height: '100%' }">
+      <mat-card-content>Simple card</mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <!-- Inicio. Paginacion -->
+  <mat-grid-tile colspan="2" rowspan="1">
+    <mat-card
+      appearance="outlined"
+      [style]="{ width: '100%', height: '100%', overflow: 'auto' }"
+    >
+      <mat-card-content>
+        <mat-paginator
+          [length]="characters().info.count"
+          [pageSize]="20"
+          [hidePageSize]="true"
+          aria-label="Select page"
+          (page)="handlePageEvent($event)"
+        >
+        </mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <!-- Fin. Paginacion -->
+
+  <mat-grid-tile colspan="1" rowspan="1">
+    <mat-card appearance="outlined" [style]="{ width: '100%', height: '100%' }">
+      <mat-card-content>Simple card</mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="1">
+    <mat-card appearance="outlined" [style]="{ width: '100%', height: '100%' }">
+      <mat-card-content>Simple card</mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

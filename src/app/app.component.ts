@@ -1,36 +1,13 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CharacterService } from '@services/rest/character.service';
-
+import {MatButtonModule} from '@angular/material/button';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, MatButtonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'rickandmorty-hub';
 
-  private characterService: CharacterService = inject(CharacterService);
-
-  ngOnInit(): void {
-
-    this.characterService.getCharacters().subscribe({
-      next: (characters) => {
-        console.log(characters);
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
-
-    this.characterService.getCharacter(1).subscribe({
-      next: (character) => {
-        console.log(character);
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
-  }
 }
