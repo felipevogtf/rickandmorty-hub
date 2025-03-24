@@ -6,6 +6,7 @@ import { Character } from '@models/character.model';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { Episode } from '@models/episode.model';
 @Component({
   selector: 'app-character-detail',
   imports: [
@@ -23,6 +24,7 @@ export class CharacterDetailComponent {
   @Input({ required: true }) character: Character | null = null;
   @Input({ required: true }) locationCharacters: Character[] | null = null;
   @Input({ required: true }) originCharacters: Character[] | null = null;
+  @Input({ required: true }) episode: Episode | null = null;
   @Input({ required: true }) isLocationLoading = false;
   @Input({ required: true }) isOriginLoading = false;
   @Input({ required: true }) isLiked = false;

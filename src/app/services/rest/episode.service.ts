@@ -34,4 +34,8 @@ export class EpisodeService {
       `${environment.REST_API}/episode/${id}`,
     );
   }
+
+  getEpisodeByURL(url: string): Observable<Episode> {
+    return this.httpClient.get<Episode>(url);
+  }
 }

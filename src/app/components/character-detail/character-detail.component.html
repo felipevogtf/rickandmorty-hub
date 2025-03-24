@@ -125,12 +125,64 @@
           }
         }
       </div>
+
+      <div class="character-detail-item">
+        <h4>An episode featuring them</h4>
+
+        @if (isOriginLoading) {
+          <mat-spinner
+            [diameter]="40"
+            [style]="{ margin: 'auto' }"
+          ></mat-spinner>
+        } @else {
+          @if (episode) {
+            <div class="character-detail-item">
+              <h4>Name</h4>
+              <span>{{ episode.name}}</span>
+            </div>
+            <div class="character-detail-item">
+              <h4>Episode</h4>
+              <span>{{ episode.episode }}</span>
+            </div>
+            <div class="character-detail-item">
+              <h4>Air Date</h4>
+              <span>{{ episode.air_date }}</span>
+            </div>
+          } @else {
+            <mat-list>
+              <mat-list-item>
+                <mat-icon matListItemIcon>warning</mat-icon>
+                <span matListItemTitle>
+                  No episodes found featuring this character
+                </span>
+              </mat-list-item>
+            </mat-list>
+          }
+        }
+      </div>
     </mat-card-content>
   </mat-card>
 } @else {
   <mat-card [style]="{ width: '100%', height: '100%' }">
-    <mat-card-content>
-      <h1>Sele</h1>
+    <mat-card-content
+      [style]="{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+      }"
+    >
+      <mat-icon
+        aria-hidden="false"
+        aria-label="Info icon"
+        fontIcon="info"
+        [style]="{
+          paddingTop: '20px',
+          paddingBottom: '20px',
+          transform: 'scale(1.5)',
+        }"
+      ></mat-icon>
+      <span> Select a character to see more details </span>
     </mat-card-content>
   </mat-card>
 }

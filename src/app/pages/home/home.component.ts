@@ -19,18 +19,15 @@ import {
 import { TableComponent } from '@components/table/table.component';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
-import { MatChipsModule } from '@angular/material/chips';
 import { CharacterDetailComponent } from '@components/character-detail/character-detail.component';
 import { LocationService } from '@services/rest/location.service';
 import { forkJoin, of, switchMap } from 'rxjs';
 import { FavoriteService } from '@services/favorite.service';
 import { SelectedCharacterService } from '@services/selected-character.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
 import { FilterComponent } from '@components/filter/filter.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { EpisodeService } from '@services/rest/episode.service';
+import { Episode } from '@models/episode.model';
 @Component({
   selector: 'app-home',
   imports: [
@@ -38,27 +35,22 @@ import { FilterComponent } from '@components/filter/filter.component';
     MatPaginatorModule,
     TableComponent,
     CommonModule,
-    MatChipsModule,
     MatListModule,
     CharacterDetailComponent,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatSelectModule,
-    MatButtonModule,
     FilterComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  @ViewChild('paginator')
-  paginator!: MatPaginator;
+  @ViewChild('paginator') paginator!: MatPaginator;
 
   private characterService = inject(CharacterService);
   private locationService = inject(LocationService);
+  private episodeService = inject(EpisodeService);
   private favoriteService = inject(FavoriteService);
   private selecterCharacterService = inject(SelectedCharacterService);
+  private _snackBar = inject(MatSnackBar);
 
   get selectedCharacter() {
     return this.selecterCharacterService.selectedCharacter();
@@ -80,10 +72,12 @@ export class HomeComponent implements OnInit {
 
   locationCharacters = signal<Character[] | null>(null);
   originCharacters = signal<Character[] | null>(null);
+  randomEpisode = signal<Episode | null>(null);
 
   charactersLoader = signal<boolean>(false);
   locationLoader = signal<boolean>(false);
   originLoader = signal<boolean>(false);
+  epidoseLoader = signal<boolean>(false);
 
   totalSpecies = computed(() => {
     return this.characters().results.reduce(
@@ -139,6 +133,13 @@ export class HomeComponent implements OnInit {
         this.getLocation(this.selectedCharacter.location.url);
         this.getOrigin(this.selectedCharacter.origin.url);
       }
+
+      if (this.selectedCharacter && this.selectedCharacter.episode.length > 0) {
+        const randomEpisodeIndex = Math.floor(
+          Math.random() * this.selectedCharacter.episode.length,
+        );
+        this.getEpisode(this.selectedCharacter.episode[randomEpisodeIndex]);
+      }
     });
   }
 
@@ -159,6 +160,9 @@ export class HomeComponent implements OnInit {
       },
       error: (error) => {
         console.error(error);
+        this._snackBar.open(error.error.error, 'Close', {
+          duration: 3000,
+        });
         this.charactersLoader.set(false);
       },
     });
@@ -274,6 +278,21 @@ export class HomeComponent implements OnInit {
       },
       error: (error) => {
         console.error(error);
+      },
+    });
+  }
+
+  getEpisode(url: string): void {
+    this.epidoseLoader.set(true);
+
+    this.episodeService.getEpisodeByURL(url).subscribe({
+      next: (episode) => {
+        this.epidoseLoader.set(false);
+        this.randomEpisode.set(episode);
+      },
+      error: (error) => {
+        console.error(error);
+        this.epidoseLoader.set(false);
       },
     });
   }
