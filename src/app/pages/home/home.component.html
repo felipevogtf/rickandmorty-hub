@@ -1,17 +1,12 @@
-<p>home works!</p>
-
-<div class="custom-grid">
+<div class="custom-grid" [style]="{ marginTop: '20px' }">
   <div class="custom-grid--position-1">
-    <mat-card [style]="{ width: '100%', height: '600px', overflow: 'hidden' }">
-      <mat-card-content [style]="{ overflow: 'auto' }">
-        @if (characters().results.length > 0) {
-          <app-table
-            [dataSource]="characters().results"
-            (selectCharacter)="handleCharacter($event)"
-          />
-        }
-      </mat-card-content>
-    </mat-card>
+    @if (characters().results.length > 0) {
+      <app-table
+        [dataSource]="characters().results"
+        [isLoading]="charactersLoader()"
+        (selectCharacter)="handleCharacter($event)"
+      />
+    }
   </div>
   <div class="custom-grid--position-2">
     <mat-card [style]="{ width: '100%', height: '100%', overflow: 'auto' }">
@@ -28,58 +23,16 @@
     </mat-card>
   </div>
   <div class="custom-grid--position-3">
-    <mat-card [style]="{ width: '100%', height: '100%' }">
-      @if (selectedCharacter()) {
-        <mat-card-header>
-          <app-avatar
-            [src]="selectedCharacter()!.image"
-            [alt]="selectedCharacter()!.name + ' image'"
-          ></app-avatar>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item>
-              <span matListItemTitle>Name</span>
-              <span matListItemLine>{{ selectedCharacter()!.name }}</span>
-            </mat-list-item>
-
-            <mat-list-item>
-              <span matListItemTitle>Status</span>
-              <span matListItemLine>{{ selectedCharacter()!.status }}</span>
-            </mat-list-item>
-
-            <mat-list-item>
-              <span matListItemTitle>Species</span>
-              <span matListItemLine>{{ selectedCharacter()!.species }}</span>
-            </mat-list-item>
-
-            <mat-list-item>
-              <span matListItemTitle>Type</span>
-              <span matListItemLine>{{ selectedCharacter()!.type }}</span>
-            </mat-list-item>
-
-            <mat-list-item>
-              <span matListItemTitle>Gender</span>
-              <span matListItemLine>{{ selectedCharacter()!.gender }}</span>
-            </mat-list-item>
-
-            <mat-list-item>
-              <span matListItemTitle>Origin</span>
-              <span matListItemLine>{{
-                selectedCharacter()!.origin.name
-              }}</span>
-            </mat-list-item>
-
-            <mat-list-item>
-              <span matListItemTitle>Location</span>
-              <span matListItemLine>{{
-                selectedCharacter()!.location.name
-              }}</span>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      }
-    </mat-card>
+    <app-character-detail
+      [character]="selectedCharacter"
+      [locationCharacters]="locationCharacters()"
+      [originCharacters]="originCharacters()"
+      [isLocationLoading]="locationLoader()"
+      [isOriginLoading]="originLoader()"
+      [isLiked]="selectedCharacterLiked()"
+      (selectCharacter)="handleCharacter($event)"
+      (likeCharacter)="handleLikeCharacter($event)"
+    />
   </div>
   <div class="custom-grid--position-4">
     <mat-card [style]="{ width: '100%', height: '100%' }">

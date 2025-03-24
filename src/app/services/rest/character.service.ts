@@ -36,4 +36,8 @@ export class CharacterService {
       `${environment.REST_API}/character/${id}`,
     );
   }
+
+  getCharacterByURL(url: string): Observable<Character> {
+    return this.httpClient.get<Character>(url);
+  }
 }

@@ -1,0 +1,136 @@
+@if (character) {
+  <mat-card [style]="{ width: '100%', height: '100%' }">
+    <mat-card-header>
+      <div class="character-avatar">
+        <app-avatar
+          [src]="character.image"
+          [alt]="character.name + ' image'"
+          size="xl"
+        ></app-avatar>
+        <button mat-flat-button (click)="onLike(character)">
+          @if (isLiked) {
+            <mat-icon>favorite</mat-icon>
+          } @else {
+            <mat-icon>favorite_outline</mat-icon>
+          }
+        </button>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="character-detail-item">
+        <h4>Name</h4>
+        <span>{{ character.name }}</span>
+      </div>
+
+      <div class="character-detail-item">
+        <h4>Status</h4>
+        <span>{{ character.status }}</span>
+      </div>
+
+      <div class="character-detail-item">
+        <h4>Species</h4>
+        <span>{{ character.species }}</span>
+      </div>
+
+      <div class="character-detail-item">
+        <h4>Type</h4>
+        <span>{{ character.type ? character.type : "No Type" }}</span>
+      </div>
+
+      <div class="character-detail-item">
+        <h4>Gender</h4>
+        <span class="character-detail-item">{{ character.gender }}</span>
+      </div>
+
+      <div class="character-detail-item">
+        <h4>Origin</h4>
+        <span>{{ character.origin.name }}</span>
+
+        @if (isOriginLoading) {
+          <mat-spinner
+            [diameter]="40"
+            [style]="{ margin: 'auto' }"
+          ></mat-spinner>
+        } @else {
+          @if (originCharacters && originCharacters.length > 0) {
+            <mat-list>
+              @for (char of originCharacters; track $index) {
+                <mat-list-item
+                  [style]="{ minHeight: '70px', cursor: 'pointer' }"
+                  (click)="onCharacter(char)"
+                >
+                  <app-avatar
+                    [src]="char.image"
+                    [alt]="char.name + ' image'"
+                    matListItemAvatar
+                  />
+                  <span matListItemTitle>
+                    <strong>{{ char.name }}</strong>
+                  </span>
+                  <span matListItemLine>{{ char.status }}</span>
+                </mat-list-item>
+              }
+            </mat-list>
+          } @else {
+            <mat-list>
+              <mat-list-item>
+                <mat-icon matListItemIcon>warning</mat-icon>
+                <span matListItemTitle>
+                  No characters found in this location
+                </span>
+              </mat-list-item>
+            </mat-list>
+          }
+        }
+      </div>
+
+      <div class="character-detail-item">
+        <h4>Location</h4>
+        <span>{{ character.location.name }}</span>
+
+        @if (isLocationLoading) {
+          <mat-spinner
+            [diameter]="40"
+            [style]="{ margin: 'auto' }"
+          ></mat-spinner>
+        } @else {
+          @if (locationCharacters && locationCharacters.length > 0) {
+            <mat-list>
+              @for (char of locationCharacters; track $index) {
+                <mat-list-item
+                  [style]="{ minHeight: '70px', cursor: 'pointer' }"
+                  (click)="onCharacter(char)"
+                >
+                  <app-avatar
+                    [src]="char.image"
+                    [alt]="char.name + ' image'"
+                    matListItemAvatar
+                  />
+                  <span matListItemTitle>
+                    <strong>{{ char.name }}</strong>
+                  </span>
+                  <span matListItemLine>{{ char.status }}</span>
+                </mat-list-item>
+              }
+            </mat-list>
+          } @else {
+            <mat-list>
+              <mat-list-item>
+                <mat-icon matListItemIcon>warning</mat-icon>
+                <span matListItemTitle>
+                  No characters found in this location
+                </span>
+              </mat-list-item>
+            </mat-list>
+          }
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+} @else {
+  <mat-card [style]="{ width: '100%', height: '100%' }">
+    <mat-card-content>
+      <h1>Sele</h1>
+    </mat-card-content>
+  </mat-card>
+}

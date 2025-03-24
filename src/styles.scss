@@ -17,7 +17,6 @@ html {
 
 :root {
   @include mat.card-overrides((
-    outlined-container-color: #6c757d,
   ));
 
   @include mat.table-overrides((

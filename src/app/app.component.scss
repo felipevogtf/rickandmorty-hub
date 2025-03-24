@@ -1,4 +1,36 @@
+@use '@angular/material' as mat;
+
 main {
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.favorite-character {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+
+  &__detail {
+    h4 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    span {
+      font-size: 1rem;
+    }
+  }
+}
+
+mat-toolbar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  @include mat.toolbar-overrides((
+    standard-height: 100px,
+  ));
 }

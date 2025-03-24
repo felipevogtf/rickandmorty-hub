@@ -1,0 +1,35 @@
+@use "@angular/material" as mat;
+
+.character-detail-item {
+  padding-bottom: 10px;
+  h4 {
+    margin: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}
+
+.character-avatar {
+  margin: 0 auto;
+  position: relative;
+
+  button {
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+    padding: 0;
+    min-width: 40px;
+    min-height: 40px;
+
+    @include mat.button-overrides(
+      (
+        filled-container-color: pink,
+        filled-label-text-color: red,
+      )
+    );
+    
+    mat-icon {
+      margin: 0;
+    }
+  }
+}
