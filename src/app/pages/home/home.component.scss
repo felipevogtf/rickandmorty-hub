@@ -1,4 +1,8 @@
+.filter-section{
+  margin-top: 20px;
+}
 .custom-grid {
+  margin-top: 10px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto auto auto 1fr;

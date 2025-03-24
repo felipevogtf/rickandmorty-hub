@@ -1,8 +1,8 @@
-<section>
+<section class="filter-section">
   <app-filter (filter)="filterCharacters($event)" />
 </section>
 
-<div class="custom-grid" [style]="{ marginTop: '20px' }">
+<section class="custom-grid">
   <div class="custom-grid--position-1">
     @if (characters().results.length > 0) {
       <app-table
@@ -63,4 +63,4 @@
       </mat-card-content>
     </mat-card>
   </div>
-</div>
+</section>
