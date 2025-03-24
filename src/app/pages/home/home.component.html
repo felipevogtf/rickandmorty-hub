@@ -1,46 +1,20 @@
 <p>home works!</p>
 
-<mat-grid-list cols="3" gutterSize="10px">
-  <!-- Inicio. Tabla -->
-  <mat-grid-tile colspan="2" rowspan="1">
-    <mat-card
-      appearance="outlined"
-      [style]="{ width: '100%', height: '100%', overflow: 'auto' }"
-    >
-      <mat-card-content>
+<div class="custom-grid">
+  <div class="custom-grid--position-1">
+    <mat-card [style]="{ width: '100%', height: '600px', overflow: 'hidden' }">
+      <mat-card-content [style]="{ overflow: 'auto' }">
         @if (characters().results.length > 0) {
-          <table mat-table [dataSource]="characters().results">
-            <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef>ID</th>
-              <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>Name</th>
-              <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="['id', 'name']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['id', 'name']"></tr>
-          </table>
+          <app-table
+            [dataSource]="characters().results"
+            (selectCharacter)="handleCharacter($event)"
+          />
         }
       </mat-card-content>
     </mat-card>
-  </mat-grid-tile>
-  <!-- Fin. Tabla -->
-
-  <mat-grid-tile colspan="1" rowspan="3">
-    <mat-card appearance="outlined" [style]="{ width: '100%', height: '100%' }">
-      <mat-card-content>Simple card</mat-card-content>
-    </mat-card>
-  </mat-grid-tile>
-
-  <!-- Inicio. Paginacion -->
-  <mat-grid-tile colspan="2" rowspan="1">
-    <mat-card
-      appearance="outlined"
-      [style]="{ width: '100%', height: '100%', overflow: 'auto' }"
-    >
+  </div>
+  <div class="custom-grid--position-2">
+    <mat-card [style]="{ width: '100%', height: '100%', overflow: 'auto' }">
       <mat-card-content>
         <mat-paginator
           [length]="characters().info.count"
@@ -52,17 +26,83 @@
         </mat-paginator>
       </mat-card-content>
     </mat-card>
-  </mat-grid-tile>
-  <!-- Fin. Paginacion -->
+  </div>
+  <div class="custom-grid--position-3">
+    <mat-card [style]="{ width: '100%', height: '100%' }">
+      @if (selectedCharacter()) {
+        <mat-card-header>
+          <app-avatar
+            [src]="selectedCharacter()!.image"
+            [alt]="selectedCharacter()!.name + ' image'"
+          ></app-avatar>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item>
+              <span matListItemTitle>Name</span>
+              <span matListItemLine>{{ selectedCharacter()!.name }}</span>
+            </mat-list-item>
 
-  <mat-grid-tile colspan="1" rowspan="1">
-    <mat-card appearance="outlined" [style]="{ width: '100%', height: '100%' }">
-      <mat-card-content>Simple card</mat-card-content>
+            <mat-list-item>
+              <span matListItemTitle>Status</span>
+              <span matListItemLine>{{ selectedCharacter()!.status }}</span>
+            </mat-list-item>
+
+            <mat-list-item>
+              <span matListItemTitle>Species</span>
+              <span matListItemLine>{{ selectedCharacter()!.species }}</span>
+            </mat-list-item>
+
+            <mat-list-item>
+              <span matListItemTitle>Type</span>
+              <span matListItemLine>{{ selectedCharacter()!.type }}</span>
+            </mat-list-item>
+
+            <mat-list-item>
+              <span matListItemTitle>Gender</span>
+              <span matListItemLine>{{ selectedCharacter()!.gender }}</span>
+            </mat-list-item>
+
+            <mat-list-item>
+              <span matListItemTitle>Origin</span>
+              <span matListItemLine>{{
+                selectedCharacter()!.origin.name
+              }}</span>
+            </mat-list-item>
+
+            <mat-list-item>
+              <span matListItemTitle>Location</span>
+              <span matListItemLine>{{
+                selectedCharacter()!.location.name
+              }}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      }
     </mat-card>
-  </mat-grid-tile>
-  <mat-grid-tile colspan="1" rowspan="1">
-    <mat-card appearance="outlined" [style]="{ width: '100%', height: '100%' }">
-      <mat-card-content>Simple card</mat-card-content>
+  </div>
+  <div class="custom-grid--position-4">
+    <mat-card [style]="{ width: '100%', height: '100%' }">
+      <mat-card-content>
+        <mat-list>
+          @for (item of recordKeys(totalSpecies()); track $index) {
+            <span matListItemTitle>{{ item }}</span>
+            <span matListItemLine>{{ totalSpecies()[item] }}</span>
+          }
+        </mat-list>
+      </mat-card-content>
     </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
+  </div>
+  <div class="custom-grid--position-5">
+    <mat-card [style]="{ width: '100%', height: '100%' }">
+      <mat-card-content>
+        <mat-list>
+          @for (item of recordKeys(totalTypes()); track $index) {
+            <span matListItemTitle>{{ item ? item : "No type" }}</span>
+            <span matListItemLine>{{ totalTypes()[item] }}</span>
+          }
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

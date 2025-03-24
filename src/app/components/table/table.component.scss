@@ -1,0 +1,8 @@
+.mat-mdc-row{
+  height: 100px;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  background-color: var(--mat-sys-inverse-on-surface);
+  cursor: pointer;
+}
