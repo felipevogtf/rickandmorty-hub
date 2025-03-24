@@ -5,12 +5,17 @@ import {
   inject,
   OnInit,
   signal,
+  ViewChild,
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { CharacterService } from '@services/rest/character.service';
 import { PaginationResponse } from '@models/pagination-response.model';
 import { Character, CharacterFilter } from '@models/character.model';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { TableComponent } from '@components/table/table.component';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
@@ -20,7 +25,12 @@ import { LocationService } from '@services/rest/location.service';
 import { forkJoin, of, switchMap } from 'rxjs';
 import { FavoriteService } from '@services/favorite.service';
 import { SelectedCharacterService } from '@services/selected-character.service';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { FilterComponent } from '@components/filter/filter.component';
 @Component({
   selector: 'app-home',
   imports: [
@@ -31,11 +41,20 @@ import { SelectedCharacterService } from '@services/selected-character.service';
     MatChipsModule,
     MatListModule,
     CharacterDetailComponent,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatSelectModule,
+    MatButtonModule,
+    FilterComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('paginator')
+  paginator!: MatPaginator;
+
   private characterService = inject(CharacterService);
   private locationService = inject(LocationService);
   private favoriteService = inject(FavoriteService);
@@ -146,8 +165,6 @@ export class HomeComponent implements OnInit {
   }
 
   handlePageEvent($event: PageEvent) {
-    console.log($event);
-
     if ($event.pageIndex >= this.characters().info.pages) {
       return;
     }
@@ -157,6 +174,12 @@ export class HomeComponent implements OnInit {
       page: $event.pageIndex + 1,
     });
 
+    this.getCharacters();
+  }
+
+  filterCharacters(characterFilter: CharacterFilter) {
+    this.characterFilter.set(characterFilter);
+    this.paginator.pageIndex = 0;
     this.getCharacters();
   }
 
