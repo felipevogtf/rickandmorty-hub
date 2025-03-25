@@ -36,8 +36,6 @@ export class LocationGraphqlService implements LocationServiceInterface {
       .valueChanges.pipe(
         map((result) => {
           const location = result.data.location;
-
-          // Formatear la lista de residentes para que sea solo una lista de IDs
           const formattedLocation: Location = {
             id: location.id,
             name: location.name,

@@ -46,6 +46,7 @@ import { Episode } from '@models/episode.model';
 export class HomeComponent implements OnInit {
   @ViewChild('paginator') paginator!: MatPaginator;
 
+  // Inject services
   private characterService = inject(CharacterService);
   private locationService = inject(LocationService);
   private episodeService = inject(EpisodeService);
@@ -53,10 +54,9 @@ export class HomeComponent implements OnInit {
   private selecterCharacterService = inject(SelectedCharacterService);
   private _snackBar = inject(MatSnackBar);
 
-  get selectedCharacter() {
-    return this.selecterCharacterService.selectedCharacter();
-  }
+  
 
+  // Main signals
   characters = signal<PaginationResponse<Character>>({
     info: {
       count: 0,
@@ -75,11 +75,19 @@ export class HomeComponent implements OnInit {
   originCharacters = signal<Character[] | null>(null);
   randomEpisode = signal<Episode | null>(null);
 
+  // Loader signals
   charactersLoader = signal<boolean>(false);
   locationLoader = signal<boolean>(false);
   originLoader = signal<boolean>(false);
   epidoseLoader = signal<boolean>(false);
 
+
+  // getters
+  get selectedCharacter() {
+    return this.selecterCharacterService.selectedCharacter();
+  }
+
+  // Computed properties
   totalSpecies = computed(() => {
     return this.characters().results.reduce(
       (acc: Record<string, number>, character) => {
@@ -148,10 +156,28 @@ export class HomeComponent implements OnInit {
     this.getCharacters();
   }
 
+  /**
+   * Get the keys of a record
+   * @param record
+   * @returns list of keys
+   */
   recordKeys(record: Record<string, number>): string[] {
     return Object.keys(record);
   }
 
+  /**
+   * Set the character filter and get characters
+   * @param characterFilter
+   */
+  filterCharacters(characterFilter: CharacterFilter) {
+    this.characterFilter.set(characterFilter);
+    this.paginator.pageIndex = 0;
+    this.getCharacters();
+  }
+
+  /**
+   * Get characters with the current filter
+   */
   getCharacters(): void {
     this.charactersLoader.set(true);
     this.characterService.getCharacters(this.characterFilter()).subscribe({
@@ -169,33 +195,11 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  handlePageEvent($event: PageEvent) {
-    if ($event.pageIndex >= this.characters().info.pages) {
-      return;
-    }
-
-    this.characterFilter.set({
-      ...this.characterFilter(),
-      page: $event.pageIndex + 1,
-    });
-
-    this.getCharacters();
-  }
-
-  filterCharacters(characterFilter: CharacterFilter) {
-    this.characterFilter.set(characterFilter);
-    this.paginator.pageIndex = 0;
-    this.getCharacters();
-  }
-
-  handleCharacter(character: Character) {
-    this.selecterCharacterService.setSelecterCharacter(character);
-  }
-
-  handleLikeCharacter(character: Character) {
-    this.favoriteService.setFavoriteCharacter(character);
-  }
-
+  /**
+   * Get location characters by url and
+   * get the first 3 characters from the same location
+   * @param locationUrl
+   */
   getLocation(locationUrl: string): void {
     this.locationLoader.set(true);
 
@@ -234,6 +238,11 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  /**
+   * Get origin characters by url and
+   * get the first 3 characters from the same origin
+   * @param originUrl
+   */
   getOrigin(originUrl: string): void {
     this.originLoader.set(true);
 
@@ -272,6 +281,10 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  /**
+   * Get a character by url
+   * @param url
+   */
   getCharacter(url: string): void {
     this.characterService.getCharacter(url).subscribe({
       next: (character) => {
@@ -283,6 +296,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /**
+   * Get a episode by url
+   * @param url
+   */
   getEpisode(url: string): void {
     this.epidoseLoader.set(true);
 
@@ -296,5 +313,26 @@ export class HomeComponent implements OnInit {
         this.epidoseLoader.set(false);
       },
     });
+  }
+
+  handlePageEvent($event: PageEvent) {
+    if ($event.pageIndex >= this.characters().info.pages) {
+      return;
+    }
+
+    this.characterFilter.set({
+      ...this.characterFilter(),
+      page: $event.pageIndex + 1,
+    });
+
+    this.getCharacters();
+  }
+
+  handleCharacter(character: Character) {
+    this.selecterCharacterService.setSelecterCharacter(character);
+  }
+
+  handleLikeCharacter(character: Character) {
+    this.favoriteService.setFavoriteCharacter(character);
   }
 }

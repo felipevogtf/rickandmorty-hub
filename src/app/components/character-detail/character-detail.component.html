@@ -1,5 +1,5 @@
 @if (character) {
-  <mat-card [style]="{ width: '100%', height: '100%' }">
+  <mat-card>
     <mat-card-header>
       <div class="character-avatar">
         <app-avatar
@@ -16,6 +16,7 @@
         </button>
       </div>
     </mat-card-header>
+
     <mat-card-content>
       <div class="character-detail-item">
         <h4>Name</h4>
@@ -47,18 +48,12 @@
         <span>{{ character.origin.name }}</span>
 
         @if (isOriginLoading) {
-          <mat-spinner
-            [diameter]="40"
-            [style]="{ margin: 'auto' }"
-          ></mat-spinner>
+          <mat-spinner [diameter]="40"></mat-spinner>
         } @else {
           @if (originCharacters && originCharacters.length > 0) {
             <mat-list>
               @for (char of originCharacters; track $index) {
-                <mat-list-item
-                  [style]="{ minHeight: '70px', cursor: 'pointer' }"
-                  (click)="onCharacter(char)"
-                >
+                <mat-list-item (click)="onCharacter(char)">
                   <app-avatar
                     [src]="char.image"
                     [alt]="char.name + ' image'"
@@ -75,7 +70,7 @@
             <mat-list>
               <mat-list-item>
                 <mat-icon matListItemIcon>warning</mat-icon>
-                <span matListItemTitle>
+                <span matListItemTitle class="no-found">
                   No characters found in this location
                 </span>
               </mat-list-item>
@@ -89,18 +84,12 @@
         <span>{{ character.location.name }}</span>
 
         @if (isLocationLoading) {
-          <mat-spinner
-            [diameter]="40"
-            [style]="{ margin: 'auto' }"
-          ></mat-spinner>
+          <mat-spinner [diameter]="40"></mat-spinner>
         } @else {
           @if (locationCharacters && locationCharacters.length > 0) {
             <mat-list>
               @for (char of locationCharacters; track $index) {
-                <mat-list-item
-                  [style]="{ minHeight: '70px', cursor: 'pointer' }"
-                  (click)="onCharacter(char)"
-                >
+                <mat-list-item (click)="onCharacter(char)">
                   <app-avatar
                     [src]="char.image"
                     [alt]="char.name + ' image'"
@@ -117,7 +106,7 @@
             <mat-list>
               <mat-list-item>
                 <mat-icon matListItemIcon>warning</mat-icon>
-                <span matListItemTitle>
+                <span matListItemTitle class="no-found">
                   No characters found in this location
                 </span>
               </mat-list-item>
@@ -130,15 +119,12 @@
         <h4>An episode featuring them</h4>
 
         @if (isOriginLoading) {
-          <mat-spinner
-            [diameter]="40"
-            [style]="{ margin: 'auto' }"
-          ></mat-spinner>
+          <mat-spinner [diameter]="40"></mat-spinner>
         } @else {
           @if (episode) {
             <div class="character-detail-item">
               <h4>Name</h4>
-              <span>{{ episode.name}}</span>
+              <span>{{ episode.name }}</span>
             </div>
             <div class="character-detail-item">
               <h4>Episode</h4>
@@ -152,7 +138,7 @@
             <mat-list>
               <mat-list-item>
                 <mat-icon matListItemIcon>warning</mat-icon>
-                <span matListItemTitle>
+                <span matListItemTitle class="no-found">
                   No episodes found featuring this character
                 </span>
               </mat-list-item>
@@ -163,25 +149,9 @@
     </mat-card-content>
   </mat-card>
 } @else {
-  <mat-card [style]="{ width: '100%', height: '100%' }">
-    <mat-card-content
-      [style]="{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-      }"
-    >
-      <mat-icon
-        aria-hidden="false"
-        aria-label="Info icon"
-        fontIcon="info"
-        [style]="{
-          paddingTop: '20px',
-          paddingBottom: '20px',
-          transform: 'scale(1.5)',
-        }"
-      ></mat-icon>
+  <mat-card>
+    <mat-card-content class="no-character-selected">
+      <mat-icon aria-hidden="false" aria-label="Info icon" fontIcon="info" />
       <span> Select a character to see more details </span>
     </mat-card-content>
   </mat-card>

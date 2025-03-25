@@ -9,6 +9,7 @@ import { map, Observable } from 'rxjs';
 })
 export class EpisodeGraphqlService implements EpisodeServiceInterface {
   private apollo: Apollo = inject(Apollo);
+  
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 

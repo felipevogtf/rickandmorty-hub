@@ -1,0 +1,11 @@
+@if (character) {
+  <mat-card appearance="outlined" (click)="onCharacterClick(character)">
+    <mat-card-content class="favorite-character">
+      <app-avatar [src]="character.image" [alt]="character.name + ' image'" />
+      <div class="favorite-character__detail">
+        <h4>{{ character.name }}</h4>
+        <span>{{ character.status }}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+}

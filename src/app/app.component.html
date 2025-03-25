@@ -1,20 +1,10 @@
 <mat-toolbar>
   <span>Rick and Morty Hub</span>
 
-  @if (favoriteCharacter) {
-    <mat-card appearance="outlined" (click)="onFavoriteCharacter(favoriteCharacter)" [style]="{ cursor: 'pointer' }">
-      <mat-card-content class="favorite-character">
-        <app-avatar
-          [src]="favoriteCharacter.image"
-          [alt]="favoriteCharacter.name + ' image'"
-        />
-        <div class="favorite-character__detail">
-          <h4>{{favoriteCharacter.name}}</h4>
-          <span>{{favoriteCharacter.status}}</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  }
+  <app-favorite-character
+    [character]="favoriteCharacter"
+    (characterClick)="onFavoriteCharacter($event)"
+  />
 </mat-toolbar>
 
 <main class="main">

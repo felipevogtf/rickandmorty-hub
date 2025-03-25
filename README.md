@@ -1,59 +1,112 @@
 # RickandmortyHub
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
+RickandmortyHub es una aplicación web desarrollada con Angular que permite explorar personajes, ubicaciones y episodios de la serie **Rick and Morty** utilizando la API pública de [Rick and Morty](https://rickandmortyapi.com/).
 
-## Development server
+## Características
 
-To start a local development server, run:
+- **Exploración de personajes**: Visualiza información detallada de los personajes, incluyendo su estado, especie, género, origen y ubicación.
+- **Filtrado avanzado**: Filtra personajes por nombre, estado y género.
+- **Favoritos**: Marca un personaje como favorito para un acceso rápido.
+- **Integración con GraphQL y REST**: Soporte para consumir datos desde la API usando GraphQL o REST.
+- **Interfaz moderna**: Diseñada con Angular Material para una experiencia de usuario atractiva y responsiva.
 
-```bash
-ng serve
+## Configuración del entorno
+
+El proyecto utiliza un archivo de configuración de entornos para definir las URLs de las APIs y el modo de consumo (GraphQL o REST). Puedes encontrar esta configuración en:
+
+- **Entorno de desarrollo**: [`src/environments/environment.development.ts`](src/environments/environment.development.ts)
+- **Entorno de producción**: [`src/environments/environment.ts`](src/environments/environment.ts)
+
+Ejemplo de configuración:
+
+```typescript
+export const environment = {
+  REST_API: 'https://rickandmortyapi.com/api',
+  GRAPHQL_API: 'https://rickandmortyapi.com/graphql',
+  useGraphql: false, // Cambia a true para usar GraphQL
+};
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Instalación
 
-## Code scaffolding
+1. Clona el repositorio:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+   ```bash
+   git clone https://github.com/tu-usuario/rickandmorty-hub.git
+   cd rickandmorty-hub
+   ```
 
-```bash
-ng generate component component-name
-```
+2. Instala las dependencias:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+   ```bash
+   npm install
+   ```
 
-```bash
-ng generate --help
-```
+## Servidor de desarrollo
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Para iniciar el servidor de desarrollo, ejecuta:
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
+Luego, abre tu navegador y navega a `http://localhost:4200/`. La aplicación se recargará automáticamente al realizar cambios en el código fuente.
 
-For end-to-end (e2e) testing, run:
+## Construcción
+
+Para construir el proyecto para producción, ejecuta:
 
 ```bash
-ng e2e
+npm run build
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Los archivos generados estarán en el directorio `dist/`.
 
-## Additional Resources
+### Linter
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Ejecuta el linter para verificar el estilo del código:
+
+```bash
+npm run lint
+```
+
+## Despliegue
+
+El proyecto incluye un flujo de trabajo de GitHub Actions para desplegar la aplicación en GitHub Pages. El archivo de configuración se encuentra en:
+
+- [`.github/workflows/main.yaml`](.github/workflows/main.yaml)
+
+Para desplegar, asegúrate de que la rama principal esté actualizada y realiza un push. La aplicación se desplegará automáticamente en la rama `gh-pages`.
+
+## Dependencias principales
+
+- **Angular**: Framework principal para el desarrollo de la aplicación.
+- **Apollo Angular**: Cliente GraphQL para Angular.
+- **Angular Material**: Biblioteca de componentes UI.
+- **RxJS**: Programación reactiva.
+
+## Estructura del proyecto
+
+```plaintext
+src/
+├── app/
+│   ├── components/       # Componentes reutilizables
+│   ├── models/           # Modelos de datos
+│   ├── pages/            # Páginas principales
+│   ├── services/         # Servicios para consumir APIs
+│   ├── app.component.*   # Componente raíz
+│   └── app.routes.ts     # Configuración de rutas
+├── environments/         # Configuración de entornos
+├── main.ts               # Punto de entrada de la aplicación
+└── styles.scss           # Estilos globales
+```
+
+## Recursos adicionales
+
+- [Documentación de Angular](https://angular.io/docs)
+- [API de Rick and Morty](https://rickandmortyapi.com/documentation)
+- [Angular Material](https://material.angular.io/)
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT.
