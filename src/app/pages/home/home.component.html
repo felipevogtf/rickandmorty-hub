@@ -4,13 +4,11 @@
 
 <section class="custom-grid">
   <div class="custom-grid--position-1">
-    @if (characters().results.length > 0) {
-      <app-table
-        [dataSource]="characters().results"
-        [isLoading]="charactersLoader()"
-        (selectCharacter)="handleCharacter($event)"
-      />
-    }
+    <app-table
+      [dataSource]="characters().results"
+      [isLoading]="charactersLoader()"
+      (selectCharacter)="handleCharacter($event)"
+    />
   </div>
   <div class="custom-grid--position-2">
     <mat-card [style]="{ width: '100%', height: '100%', overflow: 'auto' }">
@@ -45,7 +43,9 @@
       <mat-card-content>
         <mat-list>
           @for (item of recordKeys(totalSpecies()); track $index) {
-            <span matListItemTitle><strong>{{ item }}</strong></span>
+            <span matListItemTitle
+              ><strong>{{ item }}</strong></span
+            >
             <span matListItemLine>{{ totalSpecies()[item] }}</span>
           }
         </mat-list>
@@ -57,7 +57,9 @@
       <mat-card-content>
         <mat-list>
           @for (item of recordKeys(totalTypes()); track $index) {
-            <span matListItemTitle><strong>{{ item ? item : "No type" }}</strong></span>
+            <span matListItemTitle
+              ><strong>{{ item ? item : "No type" }}</strong></span
+            >
             <span matListItemLine>{{ totalTypes()[item] }}</span>
           }
         </mat-list>

@@ -7,5 +7,3 @@ export interface Episode {
   url: string;
   created: string;
 }
-
-export type EpisodeFilter = Partial<Pick<Episode, 'name' | 'episode'>>;

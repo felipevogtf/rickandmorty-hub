@@ -7,5 +7,3 @@ export interface Location{
   url: string;
   created: string;
 }
-
-export type LocationFilter = Partial<Pick<Location, 'name' | 'type' | 'dimension'>>;

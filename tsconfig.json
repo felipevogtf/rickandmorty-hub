@@ -1,5 +1,3 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -19,13 +17,31 @@
     "module": "ES2022",
     "baseUrl": "src",
     "paths": {
-      "@pages/*": ["app/pages/*"],
-      "@services/*": ["app/services/*"],
-      "@models/*": ["app/models/*"],
-      "@environments/*": ["environments/*"],
-      "@utils/*": ["app/utils/*"],
-      "@components/*": ["app/components/*"],
+      "@pages/*": [
+        "app/pages/*"
+      ],
+      "@services/*": [
+        "app/services/*"
+      ],
+      "@models/*": [
+        "app/models/*"
+      ],
+      "@environments/*": [
+        "environments/*"
+      ],
+      "@utils/*": [
+        "app/utils/*"
+      ],
+      "@components/*": [
+        "app/components/*"
+      ]
     },
+    "lib": [
+      "es2020",
+      "esnext.asynciterable",
+      "dom"
+    ],
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

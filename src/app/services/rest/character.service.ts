@@ -3,12 +3,13 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Character, CharacterFilter } from '@models/character.model';
 import { PaginationResponse } from '@models/pagination-response.model';
+import { CharacterServiceInterface } from '@models/services/character-service.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CharacterService {
+export class CharacterRestService implements CharacterServiceInterface {
   private httpClient: HttpClient = inject(HttpClient);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -31,13 +32,7 @@ export class CharacterService {
     return this.httpClient.get<PaginationResponse<Character>>(url, { params });
   }
 
-  getCharacter(id: number): Observable<Character> {
-    return this.httpClient.get<Character>(
-      `${environment.REST_API}/character/${id}`,
-    );
-  }
-
-  getCharacterByURL(url: string): Observable<Character> {
+  getCharacter(url: string): Observable<Character> {
     return this.httpClient.get<Character>(url);
   }
 }

@@ -8,7 +8,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { CharacterService } from '@services/rest/character.service';
+import { CharacterService } from '@services/switcher/character.service';
+
 import { PaginationResponse } from '@models/pagination-response.model';
 import { Character, CharacterFilter } from '@models/character.model';
 import {
@@ -20,13 +21,13 @@ import { TableComponent } from '@components/table/table.component';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { CharacterDetailComponent } from '@components/character-detail/character-detail.component';
-import { LocationService } from '@services/rest/location.service';
-import { forkJoin, of, switchMap } from 'rxjs';
+import { LocationService } from '@services/switcher/location.service';
+import { forkJoin, of, switchMap, take } from 'rxjs';
 import { FavoriteService } from '@services/favorite.service';
 import { SelectedCharacterService } from '@services/selected-character.service';
 import { FilterComponent } from '@components/filter/filter.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EpisodeService } from '@services/rest/episode.service';
+import { EpisodeService } from '@services/switcher/episode.service';
 import { Episode } from '@models/episode.model';
 @Component({
   selector: 'app-home',
@@ -205,7 +206,7 @@ export class HomeComponent implements OnInit {
     }
 
     this.locationService
-      .getLocationByURL(locationUrl)
+      .getLocation(locationUrl)
       .pipe(
         switchMap((location) => {
           if (location.residents.length == 0) {
@@ -215,7 +216,7 @@ export class HomeComponent implements OnInit {
           const residents = location.residents.slice(0, 3);
 
           const characterRequests = residents.map((resident) => {
-            return this.characterService.getCharacterByURL(resident);
+            return this.characterService.getCharacter(resident).pipe(take(1));
           });
 
           return forkJoin(characterRequests);
@@ -243,7 +244,7 @@ export class HomeComponent implements OnInit {
     }
 
     this.locationService
-      .getLocationByURL(originUrl)
+      .getLocation(originUrl)
       .pipe(
         switchMap((location) => {
           if (location.residents.length == 0) {
@@ -253,7 +254,7 @@ export class HomeComponent implements OnInit {
           const residents = location.residents.slice(0, 3);
 
           const characterRequests = residents.map((resident) => {
-            return this.characterService.getCharacterByURL(resident);
+            return this.characterService.getCharacter(resident).pipe(take(1));
           });
 
           return forkJoin(characterRequests);
@@ -265,14 +266,14 @@ export class HomeComponent implements OnInit {
           this.originLoader.set(false);
         },
         error: (error) => {
-          console.error(error);
+          console.log(error);
           this.originLoader.set(false);
         },
       });
   }
 
   getCharacter(url: string): void {
-    this.characterService.getCharacterByURL(url).subscribe({
+    this.characterService.getCharacter(url).subscribe({
       next: (character) => {
         this.selecterCharacterService.setSelecterCharacter(character);
       },
@@ -285,7 +286,7 @@ export class HomeComponent implements OnInit {
   getEpisode(url: string): void {
     this.epidoseLoader.set(true);
 
-    this.episodeService.getEpisodeByURL(url).subscribe({
+    this.episodeService.getEpisode(url).subscribe({
       next: (episode) => {
         this.epidoseLoader.set(false);
         this.randomEpisode.set(episode);
